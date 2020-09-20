@@ -1,6 +1,6 @@
 const express = require("express")
 const mongoose = require("mongoose")
-// require("dotenv").config({ path: "./secret" })
+require("dotenv").config()
 const passport = require("passport")
 const passportLocalMongoose = require("passport-local-mongoose")
 const session = require("express-session")
@@ -12,10 +12,14 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+app.use(session({
+    secret: ""
+}))
+
 app.set("view engine", "ejs")
 
 // --> connect mongodb database
-mongoose.connect("mongodb+srv://contractman:contractman123@cluster0.tqqou.mongodb.net/ContractMan?retryWrites=true&w=majority",
+mongoose.connect(`mongodb+srv://${process.env.DB_username}:${process.env.DB_password}@cluster0.tqqou.mongodb.net/ContractMan?retryWrites=true&w=majority`,
     { useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true },
     (err, res) => {
         if (err) throw err
