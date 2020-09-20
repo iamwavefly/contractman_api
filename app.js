@@ -13,8 +13,20 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use(session({
-    secret: ""
+    secret: process.env.secret,
+    resave: false,
+    saveUninitialized: false
 }))
+
+// --> passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.set("view engine", "ejs")
 

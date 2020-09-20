@@ -3,6 +3,8 @@ const User = require("../model/UserSchema")
 
 const router = express.Router()
 
+User.plugin()
+
 router.get("/", (req, res) => {
     res.status(200).json({
         status: "ok"
